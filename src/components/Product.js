@@ -22,6 +22,15 @@ export class Product extends Component{
         }
     }
 
+    handleChange = (prod_id) => {
+        console.log(prod_id)
+        // fetch(variables.API_URL+'api/product/'+prod_id)
+        // .then(response=>response.json())
+        // .then(data=>{
+        //     console.log(data)
+        // });
+    }
+
     FilterFn = () => {
         var productIdFilter=this.state.productIdFilter;
         var productNameFilter = this.state.productNameFilter;
@@ -245,7 +254,7 @@ export class Product extends Component{
                 <td>
                     <div>
                     <input className="form-check-input" type="checkbox"
-                    id="checkboxNoLabel" value="" aria-label="..."/>
+                    id="checkboxNoLabel" value="" onChange={(e) => this.handleChange(prod.id, e)}/>
                     </div>
                 </td>
             </tr>

@@ -30,6 +30,10 @@
 .authnavbar .auth:hover{
     cursor: pointer;
 }
+.register-page {
+    width: 50%;
+    margin: auto;
+}
 
 .login-page form{
     width: 50%;
