@@ -22,13 +22,45 @@ export class Product extends Component{
         }
     }
 
-    handleChange = (prod_id) => {
-        console.log(prod_id)
-        // fetch(variables.API_URL+'api/product/'+prod_id)
+    handleChange = (prod_id, e) => {
+        // console.log(prod_id , e.target.checked)
+        // fetch(variables.API_URL+'api/product/'+prod_id+'/'+e.target.checked)
         // .then(response=>response.json())
         // .then(data=>{
-        //     console.log(data)
+        //     console.log(data['selected_products'])
         // });
+        let updated_products = []
+        for(let i=0; i<this.state.products.length;i++) {
+            if (this.state.products[i].id === prod_id) {
+                if (e.target.checked) {
+                    this.state.products[i].is_checked = true
+                }
+                else {
+                    this.state.products[i].is_checked = false
+                }
+            }
+            updated_products.push(this.state.products[i])
+        }
+        this.setState({products: updated_products})
+
+        if (localStorage.getItem('selected_products')) {
+            let selected_products = JSON.parse(localStorage.getItem('selected_products'))
+            if (!selected_products.includes(prod_id)) {
+                if (e.target.checked) {
+                    selected_products.push(prod_id)
+                    localStorage.setItem('selected_products', JSON.stringify(selected_products))
+                }
+            }
+            else {
+                if (!e.target.checked) {
+                    selected_products = selected_products.filter(prod => prod !== prod_id)
+                    localStorage.setItem('selected_products', JSON.stringify(selected_products))
+                }
+            }
+        }
+        else {
+            localStorage.setItem('selected_products', JSON.stringify([prod_id]))
+        }
     }
 
     FilterFn = () => {
@@ -109,10 +141,13 @@ export class Product extends Component{
         fetch(variables.API_URL+'api/product/')
         .then(response=>response.json())
         .then(data=>{
+            let selected_products = JSON.parse(localStorage.getItem('selected_products'))
+            for (let i=0;i<data.length;i++){
+                let is_checked = selected_products.includes(data[i]['id'])
+                data[i]['is_checked'] = is_checked
+            }
             this.setState({products:data,productsWithoutFilter:data});
         });
-
-        
     }
 
     componentDidMount(){
@@ -254,7 +289,7 @@ export class Product extends Component{
                 <td>
                     <div>
                     <input className="form-check-input" type="checkbox"
-                    id="checkboxNoLabel" value="" onChange={(e) => this.handleChange(prod.id, e)}/>
+                    id="checkboxNoLabel" checked={prod.is_checked} onChange={(e) => this.handleChange(prod.id, e)}/>
                     </div>
                 </td>
             </tr>
