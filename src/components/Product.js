@@ -142,9 +142,11 @@ export class Product extends Component{
         .then(response=>response.json())
         .then(data=>{
             let selected_products = JSON.parse(localStorage.getItem('selected_products'))
-            for (let i=0;i<data.length;i++){
-                let is_checked = selected_products.includes(data[i]['id'])
-                data[i]['is_checked'] = is_checked
+            if (selected_products) {
+                for (let i=0;i<data.length;i++){
+                    let is_checked = selected_products.includes(data[i]['id'])
+                    data[i]['is_checked'] = is_checked
+                }
             }
             this.setState({products:data,productsWithoutFilter:data});
         });

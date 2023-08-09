@@ -11,7 +11,7 @@ const LoginPage = () => {
         <input type='password' name='password' placeholder='Enter Password(root: syed123)'/>
         <input type='submit' className='submit'/>
       </form>
-      {/* <p><Link to='/register' className='register'>Register</Link></p> */}
+      <p  className='register'><Link to='/register'>Signup</Link></p>
     </div>
   )
 }

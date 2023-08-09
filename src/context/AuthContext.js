@@ -42,7 +42,7 @@ export const AuthProvider = ({children}) => {
 
     let RegisterUser = async (e) => {
         e.preventDefault()
-        let response = await fetch(api_url + 'api/register/', {
+        let response = await fetch(api_url + 'api/register', {
             method: 'Post',
             headers: {
                 'Content-type': 'application/json'
@@ -52,23 +52,19 @@ export const AuthProvider = ({children}) => {
             'password': e.target.password.value,
             'password1': e.target.password1.value})
         })
-        let data = await response.json()
-        console.log(response)
-        // if (response.status === 200) {
-        //     setAuthTokens(data)
-        //     setUser(jwt_decode(data.access))
-        //     localStorage.setItem('authTokens', JSON.stringify(data))
-        //     navigate('/')
-        // }
-        // else {
-        //     alert('Something went wrong')
-        // }
+        if (response.status === 200) {
+            navigate('/')
+        }
+        else {
+            alert('Something went wrong')
+        }
     }
 
     let logoutUser = () => {
         setAuthTokens(null)
         setUser(null)
         localStorage.removeItem('authTokens')
+        localStorage.removeItem('selected_products')
     }
 
     let updateToken = async () => {
