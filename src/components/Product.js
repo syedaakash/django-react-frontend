@@ -42,8 +42,9 @@ export class Product extends Component{
             updated_products.push(this.state.products[i])
         }
         this.setState({products: updated_products})
-
-        let selected_products = JSON.parse(localStorage.getItem('selected_products'))
+        
+        let selected_products = null
+        selected_products = JSON.parse(localStorage.getItem('selected_products'))
         if (localStorage.getItem('selected_products')) {
             if (!selected_products.includes(prod_id)) {
                 if (e.target.checked) {
@@ -60,6 +61,7 @@ export class Product extends Component{
         }
         else {
             localStorage.setItem('selected_products', JSON.stringify([prod_id]))
+            selected_products = JSON.parse(localStorage.getItem('selected_products'))
         }
 
         let searched_products = JSON.parse(localStorage.getItem('searched_products'))

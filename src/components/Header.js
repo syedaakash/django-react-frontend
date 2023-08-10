@@ -8,16 +8,6 @@ const Header = () => {
     let {user, logoutUser} = useContext(AuthContext)
   return (
     <div className='authnavbar'>
-        {/* <Link to='/' className='brand-name'>Product Hub</Link>
-        {
-            user ? (
-                <p onClick={logoutUser} className='login'>logout</p>
-            ) : (
-                <Link to='/login' className='login'>Login</Link>
-            )
-        }
-        {user && <p className='username'>{user.username}</p>} */}
-
         <nav className="navbar navbar-light bg-light">
             <NavLink className="navbar-brand" to="/">
                 Product Hub
