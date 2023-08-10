@@ -7,8 +7,8 @@ const LoginPage = () => {
   return (
     <div className='login-page'>
       <form onSubmit={loginUser}>
-        <input type='text' name='username' placeholder='Enter Username(root: syed)'/>
-        <input type='password' name='password' placeholder='Enter Password(root: syed123)'/>
+        <input type='text' name='username' placeholder='Enter Username'/>
+        <input type='password' name='password' placeholder='Enter Password'/>
         <input type='submit' className='submit'/>
       </form>
       <p  className='register'><Link to='/register'>Signup</Link></p>

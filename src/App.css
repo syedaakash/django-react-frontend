@@ -56,3 +56,7 @@
 .login-page .register{
     text-align: center;
 }
+.product-page .search-product {
+    margin-top: 10px;
+    margin-bottom: 0 !important;
+}

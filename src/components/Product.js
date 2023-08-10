@@ -43,8 +43,8 @@ export class Product extends Component{
         }
         this.setState({products: updated_products})
 
+        let selected_products = JSON.parse(localStorage.getItem('selected_products'))
         if (localStorage.getItem('selected_products')) {
-            let selected_products = JSON.parse(localStorage.getItem('selected_products'))
             if (!selected_products.includes(prod_id)) {
                 if (e.target.checked) {
                     selected_products.push(prod_id)
@@ -61,6 +61,18 @@ export class Product extends Component{
         else {
             localStorage.setItem('selected_products', JSON.stringify([prod_id]))
         }
+
+        let searched_products = JSON.parse(localStorage.getItem('searched_products'))
+        if (localStorage.getItem('searched_products')) {
+            for (let i=0;i<searched_products.length;i++) {
+                if (selected_products.includes(searched_products[i].id)) {
+                    searched_products[i].is_checked = true
+                } else {
+                    searched_products[i].is_checked = false
+                }
+            }
+        }
+        localStorage.setItem('searched_products', JSON.stringify(searched_products))
     }
 
     FilterFn = () => {
@@ -152,8 +164,28 @@ export class Product extends Component{
         });
     }
 
+    handleSearch = (e) => {
+        fetch(variables.API_URL+'api/product/'+(e.target.value ? e.target.value : 'no-prod'))
+        .then(response=>response.json())
+        .then(data=>{
+            let selected_products = JSON.parse(localStorage.getItem('selected_products'))
+            if (selected_products) {
+                for (let i=0;i<data.length;i++){
+                    let is_checked = selected_products.includes(data[i]['id'])
+                    data[i]['is_checked'] = is_checked
+                }
+            }
+            this.setState({products:data,productsWithoutFilter:data});
+
+            localStorage.setItem('searched_products',JSON.stringify(data))
+        });
+    }
+
     componentDidMount(){
-        this.refreshList();
+        // this.refreshList();
+        if (localStorage.getItem('searched_products')) {
+            this.setState({products: JSON.parse(localStorage.getItem('searched_products'))})
+        }
     }
 
     render(){
@@ -166,7 +198,15 @@ export class Product extends Component{
             available_stock,
         }=this.state;
         return(
-            <div>
+            <div className='product-page'>
+                <div className="input-group mb-3 search-product">
+                    <input type="text" className="form-control" 
+                    placeholder="Search Product (Mouse, Macbook, Keyboard, Laptop)"
+                     aria-label="Search Product" onChange={(e) => this.handleSearch(e)}/>
+                    <div className="input-group-append">
+                        <span className="input-group-text" id="basic-addon2">Search</span>
+                    </div>
+                </div>
                 <table className="table table-striped">
     <thead>
     <tr>

@@ -55,6 +55,10 @@ export const AuthProvider = ({children}) => {
         if (response.status === 200) {
             navigate('/')
         }
+        else if (response.status === 400) {
+            let msg = await response.text()
+            alert(msg)
+        }
         else {
             alert('Something went wrong')
         }
@@ -65,6 +69,7 @@ export const AuthProvider = ({children}) => {
         setUser(null)
         localStorage.removeItem('authTokens')
         localStorage.removeItem('selected_products')
+        localStorage.removeItem('searched_products')
     }
 
     let updateToken = async () => {
